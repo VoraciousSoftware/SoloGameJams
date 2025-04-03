@@ -1,0 +1,72 @@
+[gd_scene load_steps=14 format=3 uid="uid://clgfxae700tqw"]
+
+[ext_resource type="Script" uid="uid://d103umblt1vli" path="res://Units/Villager/villager.gd" id="1_ct7ec"]
+[ext_resource type="Texture2D" uid="uid://bf5efdeeyuuxa" path="res://icon.svg" id="1_xxpno"]
+[ext_resource type="Script" uid="uid://ryyqevr2vmcq" path="res://Units/Generic/state_machine.gd" id="2_mb8s1"]
+[ext_resource type="Script" uid="uid://boexomyk4iucs" path="res://Units/Villager/idle_state.gd" id="3_iqmv7"]
+[ext_resource type="Script" uid="uid://dosyj5oyecktk" path="res://Components/detection_component.gd" id="3_le1og"]
+[ext_resource type="Script" uid="uid://ddaspq423mo8s" path="res://Units/Villager/wander_state.gd" id="4_3lqr8"]
+[ext_resource type="Script" uid="uid://cqpg6rqkxtii7" path="res://Components/health_component.gd" id="5_udgpl"]
+[ext_resource type="Script" uid="uid://bnxc6ujjfux2t" path="res://Components/movement_component.gd" id="7_bpc81"]
+[ext_resource type="Script" uid="uid://dj6prc3djf730" path="res://Units/Villager/charge_state.gd" id="7_nfgsf"]
+[ext_resource type="Script" uid="uid://bhuxt2kbivpyd" path="res://Units/Villager/attack_state.gd" id="8_f6tsr"]
+[ext_resource type="Script" uid="uid://bk5lidoof6b7u" path="res://Units/Villager/attack_component.gd" id="11_h3x82"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iqmv7"]
+radius = 26.0
+height = 52.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3lqr8"]
+radius = 186.269
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Targetable"]]
+script = ExtResource("1_ct7ec")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.40625, 0.40625)
+texture = ExtResource("1_xxpno")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_iqmv7")
+
+[node name="Detection_Component" type="Area2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_le1og")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection_Component"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_3lqr8")
+
+[node name="State_Machine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_mb8s1")
+
+[node name="Idle_State" type="Node" parent="State_Machine"]
+script = ExtResource("3_iqmv7")
+
+[node name="Idle_Timer" type="Timer" parent="State_Machine/Idle_State"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="Wander_State" type="Node" parent="State_Machine"]
+script = ExtResource("4_3lqr8")
+
+[node name="Charge_State" type="Node" parent="State_Machine"]
+script = ExtResource("7_nfgsf")
+
+[node name="Attack_State" type="Node" parent="State_Machine"]
+script = ExtResource("8_f6tsr")
+
+[node name="Health_Component" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_udgpl")
+
+[node name="Movement_Component" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_bpc81")
+
+[node name="Attack_Component" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("11_h3x82")
+
+[connection signal="timeout" from="State_Machine/Idle_State/Idle_Timer" to="State_Machine/Idle_State" method="_on_idle_timer_timeout"]
