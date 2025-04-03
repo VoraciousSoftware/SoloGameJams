@@ -4,8 +4,10 @@ class_name Villager extends CharacterBody2D
 @onready var health_component: HealthComponent = %Health_Component
 @onready var movement_component: MovementComponent = %Movement_Component
 @onready var detection_component: DetectionComponent = %Detection_Component
+@onready var attack_component: AttackComponent = %Attack_Component
 
 var current_target: Node2D = null
+var home_location: Vector2
 
 func _ready() -> void:
 	
@@ -18,6 +20,7 @@ func _ready() -> void:
 func hit(damage_amount: float):
 	if health_component:
 		health_component.take_damage(damage_amount)
+		print(name + " took " + str(damage_amount) + " damage!")
 	else:
 		print("Attempted to hit villager, but it has no HealthComponent!")
 

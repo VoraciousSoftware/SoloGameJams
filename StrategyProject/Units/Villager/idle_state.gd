@@ -4,7 +4,7 @@ var IdleTimerActive: bool
 
 func enter():
 	IdleTimerActive = true
-	%Idle_Timer.start(5.0)
+	%Idle_Timer.start(rng.randf_range(5.0, 10.0))
 	# Override in specific states
 
 # Called when this state is deactivated

@@ -20,10 +20,9 @@ func Update(_delta: float) -> State:
 	
 	var pos: Vector2 = character.global_position
 	var target_location = character.current_target.global_position
-	if pos.distance_to(target_location) > 20.0:
+	if pos.distance_to(target_location) > character.attack_component.attack_range:
 		return state_machine.states["Charge_State"]
 	
-	if character.current_target.has_method("hit"):
-		character.current_target.hit()
+	character.attack_component.perform_attack(character.current_target)
 	
 	return

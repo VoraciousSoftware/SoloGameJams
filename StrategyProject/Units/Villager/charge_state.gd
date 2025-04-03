@@ -20,7 +20,7 @@ func Update(_delta: float) -> State:
 	
 	var pos: Vector2 = character.global_position
 	target_location = character.current_target.global_position
-	if pos.distance_to(target_location) < 10.0:
+	if pos.distance_to(target_location) < character.attack_component.attack_range:
 		return state_machine.states["Attack_State"]
 	
 	character.movement_component.accelerate_in_direction(pos.direction_to(target_location), _delta)

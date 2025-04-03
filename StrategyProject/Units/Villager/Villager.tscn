@@ -10,28 +10,28 @@
 [ext_resource type="Script" uid="uid://bnxc6ujjfux2t" path="res://Components/movement_component.gd" id="7_bpc81"]
 [ext_resource type="Script" uid="uid://dj6prc3djf730" path="res://Units/Villager/charge_state.gd" id="7_nfgsf"]
 [ext_resource type="Script" uid="uid://bhuxt2kbivpyd" path="res://Units/Villager/attack_state.gd" id="8_f6tsr"]
-[ext_resource type="Script" uid="uid://bk5lidoof6b7u" path="res://Units/Villager/attack_component.gd" id="11_h3x82"]
+[ext_resource type="Script" uid="uid://bk5lidoof6b7u" path="res://Components/attack_component.gd" id="11_h3x82"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iqmv7"]
-radius = 26.0
-height = 52.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_h3x82"]
+radius = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3lqr8"]
-radius = 186.269
+radius = 100.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Targetable"]]
 script = ExtResource("1_ct7ec")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.40625, 0.40625)
+scale = Vector2(0.1875, 0.1875)
 texture = ExtResource("1_xxpno")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_iqmv7")
+shape = SubResource("CircleShape2D_h3x82")
 
 [node name="Detection_Component" type="Area2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_le1og")
+detection_radius = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detection_Component"]
 unique_name_in_owner = true
@@ -64,9 +64,17 @@ script = ExtResource("5_udgpl")
 [node name="Movement_Component" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("7_bpc81")
+max_speed = 50.0
+acceleration = 300.0
+friction = 500.0
 
 [node name="Attack_Component" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("11_h3x82")
 
+[node name="Attack_Timer" type="Timer" parent="Attack_Component"]
+unique_name_in_owner = true
+one_shot = true
+
 [connection signal="timeout" from="State_Machine/Idle_State/Idle_Timer" to="State_Machine/Idle_State" method="_on_idle_timer_timeout"]
+[connection signal="timeout" from="Attack_Component/Attack_Timer" to="Attack_Component" method="_on_attack_timer_timeout"]
