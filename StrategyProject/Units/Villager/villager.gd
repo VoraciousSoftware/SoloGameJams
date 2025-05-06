@@ -7,6 +7,7 @@ class_name Villager extends CharacterBody2D
 @onready var attack_component: AttackComponent = %Attack_Component
 
 var current_target: Node2D = null
+var last_location: Vector2
 var home_location: Vector2
 
 func _ready() -> void:

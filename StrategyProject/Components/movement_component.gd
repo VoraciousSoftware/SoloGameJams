@@ -14,6 +14,7 @@ class_name MovementComponent extends Node
 # --- Configuration ---
 @export var max_speed: float = 150.0
 @export var acceleration: float = 800.0
+@export var turn_speed: float = 10.0
 @export var friction: float = 1000.0 # How quickly to stop
 
 # --- State ---
@@ -39,23 +40,17 @@ func _ready():
 # --- Public Movement Methods ---
 
 ## Accelerates the owner towards the target direction.
-## Call this from the owner's _physics_process when movement input is active.
-## 'direction' should ideally be normalized, but we normalize it here for safety.
 func accelerate_in_direction(direction: Vector2, delta: float):
 	if not _owner_body: return # Safety check
 
 	if direction == Vector2.ZERO:
-		# If direction is zero, applying friction is usually desired.
-		# The owner should call apply_friction instead in this case.
-		# However, calling move_toward with a zero target also works like friction
-		# if acceleration > 0, so we could technically handle it here,
-		# but separating intent (accelerate vs decelerate) is cleaner.
 		apply_friction(delta) # Delegate to friction logic if direction is zero
 		return
 
 	# Calculate target velocity and move towards it
 	var target_velocity = direction.normalized() * max_speed
 	_owner_body.velocity = _owner_body.velocity.move_toward(target_velocity, acceleration * delta)
+	_owner_body.rotation = lerp_angle(_owner_body.rotation, direction.angle(), turn_speed * delta)
 	# print("Accelerating: ", _owner_body.velocity) # Debug
 
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwr0umocedsyl"]
+[gd_scene load_steps=3 format=3 uid="uid://dwr0umocedsyl"]
 
 [ext_resource type="PackedScene" uid="uid://clgfxae700tqw" path="res://Units/Villager/Villager.tscn" id="1_1f6sb"]
+[ext_resource type="PackedScene" uid="uid://c2hxnvfjiedy2" path="res://Units/Player/player.tscn" id="2_4ej8c"]
 
 [node name="World1" type="Node2D"]
 
@@ -33,3 +34,6 @@ position = Vector2(279, 434)
 
 [node name="CharacterBody2D10" parent="." instance=ExtResource("1_1f6sb")]
 position = Vector2(834, 462)
+
+[node name="Player" parent="." instance=ExtResource("2_4ej8c")]
+position = Vector2(637, 341)

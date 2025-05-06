@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://c2hxnvfjiedy2"]
+
+[ext_resource type="Texture2D" uid="uid://bf5efdeeyuuxa" path="res://icon.svg" id="1_1n4l5"]
+[ext_resource type="Script" uid="uid://ryyqevr2vmcq" path="res://Units/Generic/state_machine.gd" id="2_qujoq"]
+[ext_resource type="Script" uid="uid://b04dqjdg5cve4" path="res://Units/Player/player_idle.gd" id="3_1n4l5"]
+[ext_resource type="Script" uid="uid://pvfxemda3tot" path="res://Units/Player/player_walk.gd" id="4_qujoq"]
+[ext_resource type="Script" uid="uid://cqpg6rqkxtii7" path="res://Components/health_component.gd" id="5_b3pu4"]
+[ext_resource type="Script" uid="uid://bnxc6ujjfux2t" path="res://Components/movement_component.gd" id="6_hia2j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b3pu4"]
+radius = 12.0
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1875, 0.1875)
+texture = ExtResource("1_1n4l5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_b3pu4")
+
+[node name="State_Machine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_qujoq")
+
+[node name="Player_Idle" type="Node" parent="State_Machine"]
+script = ExtResource("3_1n4l5")
+
+[node name="Player_Walk" type="Node" parent="State_Machine"]
+script = ExtResource("4_qujoq")
+
+[node name="Health_Component" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_b3pu4")
+
+[node name="Movement_Component" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_hia2j")
+max_speed = 50.0
+acceleration = 300.0
+friction = 500.0

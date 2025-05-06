@@ -10,9 +10,6 @@ func enter():
 func exit():
 	pass
 
-func Input(event: InputEvent) -> State:
-	return
-
 # Called every physics frame while this state is active
 func Update(_delta: float) -> State:
 	if character.current_target:
@@ -23,5 +20,6 @@ func Update(_delta: float) -> State:
 		return state_machine.states["Idle_State"]
 	
 	character.movement_component.accelerate_in_direction(pos.direction_to(target_location), _delta)
+	#character.rotation = pos.angle_to_point(target_location)
 	character.movement_component.move()
 	return

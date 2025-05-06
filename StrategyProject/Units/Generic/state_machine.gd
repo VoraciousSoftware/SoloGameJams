@@ -36,7 +36,7 @@ func _input(event: InputEvent) -> void:
 	if !current_state:
 		return
 	
-	var new_state = current_state.Input(event)
+	var new_state = current_state.get_input(event)
 	if new_state:
 		change_state(new_state)
 
@@ -49,7 +49,6 @@ func change_state(new_state: State):
 	# Set the new state and call its enter logic
 	current_state = new_state
 	current_state.enter()
-	print("Enemy changed state to: ", current_state.name)
 
 
 # Optional: Helper to get a state by name if needed

@@ -12,21 +12,18 @@ signal lost_detection(body: Node2D)
 ## The collision group name to look for (e.g., "player", "enemies", "interactables").
 @export var target_group: String = "Targetable"
 
-## Optional: Convenience export to set the radius if the child is a CircleShape2D.
-@export var detection_radius: float = 150.0 : set = set_detection_radius
-
 # --- Internal State ---
 ## Stores the bodies currently inside the area that match the target group.
 var detected_bodies: Array[Node2D] = []
 
 # --- Node References ---
-@onready var collision_shape: CollisionShape2D = get_node_or_null("CollisionShape2D")
+@onready var collision_area: CollisionPolygon2D = get_node_or_null("CollisionArea")
 
 # --- Lifecycle Methods ---
 
 func _ready():
 	# Validate that a CollisionShape2D child exists
-	if not collision_shape:
+	if not collision_area:
 		push_error("DetectionComponent '%s' requires a CollisionShape2D child node named 'CollisionShape2D'!" % name)
 		# Optionally disable monitoring if shape is missing
 		monitoring = false
@@ -35,7 +32,6 @@ func _ready():
 
 	# Apply the radius set in the inspector (or default)
 	# Call the setter to ensure the shape gets updated if it's a circle
-	set_detection_radius(detection_radius)
 
 	# --- Connect the Area2D's built-in signals ---
 	# These signals fire for *any* physics body entering/exiting.
@@ -108,24 +104,6 @@ func get_closest_detection() -> Node2D:
 			closest_body = body
 
 	return closest_body
-
-
-# --- Setters ---
-
-## Updates the detection radius, but only if the child shape is a CircleShape2D.
-func set_detection_radius(value: float):
-	detection_radius = value
-	# Check if the node is ready and the shape is valid
-	if not is_inside_tree() or not is_instance_valid(collision_shape):
-		return # collision_shape might not be ready yet, _ready will handle it
-
-	# Attempt to cast the shape to a CircleShape2D
-	var circle_shape = collision_shape.shape as CircleShape2D
-	if circle_shape:
-		circle_shape.radius = detection_radius
-	# else: # Optional warning if it's not a circle
-		# if detection_radius != 200.0: # Only warn if user changed it from default
-			# push_warning("DetectionComponent '%s': Tried to set radius, but child CollisionShape2D is not a CircleShape2D." % name)
 
 # --- Private Helpers ---
 

@@ -18,7 +18,7 @@ func enter():
 func exit():
 	pass # Override in specific states
 
-func Input(event: InputEvent) -> State:
+func get_input(event: InputEvent) -> State:
 	return
 
 # Called every physics frame while this state is active
