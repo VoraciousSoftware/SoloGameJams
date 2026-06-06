@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ccf2cp0lmuw01"]
+
+[ext_resource type="PackedScene" uid="uid://cgj8thcqljjnn" path="res://WorldMap.tscn" id="1_80nbo"]
+
+[node name="Game" type="Node2D" unique_id=627513730]
+
+[node name="WorldMap" parent="." unique_id=2071186762 instance=ExtResource("1_80nbo")]
+GridSize = 200

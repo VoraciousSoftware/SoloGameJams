@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://clgfxae700tqw"]
 
 [ext_resource type="Script" uid="uid://d103umblt1vli" path="res://Units/Villager/villager.gd" id="1_ct7ec"]
-[ext_resource type="Texture2D" uid="uid://bf5efdeeyuuxa" path="res://icon.svg" id="1_xxpno"]
 [ext_resource type="Script" uid="uid://ryyqevr2vmcq" path="res://Units/Generic/state_machine.gd" id="2_mb8s1"]
+[ext_resource type="Texture2D" uid="uid://cj2bioqkxh4ea" path="res://Graphics/OldMan.png" id="2_t04qw"]
 [ext_resource type="Script" uid="uid://boexomyk4iucs" path="res://Units/Villager/idle_state.gd" id="3_iqmv7"]
 [ext_resource type="Script" uid="uid://dosyj5oyecktk" path="res://Components/detection_component.gd" id="3_le1og"]
 [ext_resource type="Script" uid="uid://ddaspq423mo8s" path="res://Units/Villager/wander_state.gd" id="4_3lqr8"]
@@ -14,17 +14,17 @@
 [ext_resource type="Script" uid="uid://bk5lidoof6b7u" path="res://Components/attack_component.gd" id="11_h3x82"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h3x82"]
-radius = 12.0
+radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t04qw"]
-radius = 24.0832
+radius = 6.08276
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_ct7ec")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1875, 0.1875)
-texture = ExtResource("1_xxpno")
+texture = ExtResource("2_t04qw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_h3x82")
@@ -35,7 +35,9 @@ script = ExtResource("3_le1og")
 
 [node name="CollisionArea" type="CollisionPolygon2D" parent="Detection_Component"]
 unique_name_in_owner = true
-polygon = PackedVector2Array(0, -12, 100, -50, 120, -25, 120, 25, 100, 50, 0, 12)
+position = Vector2(0, 2.38419e-07)
+scale = Vector2(0.360331, 0.282031)
+polygon = PackedVector2Array(0, -7.99999, 100, -50, 120, -25, 120, 25, 100, 50, 0, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detection_Component"]
 shape = SubResource("CircleShape2D_t04qw")

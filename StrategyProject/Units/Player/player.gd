@@ -3,7 +3,6 @@ class_name Player extends CharacterBody2D
 @onready var state_machine: StateMachine = %State_Machine
 @onready var health_component: HealthComponent = %Health_Component
 @onready var movement_component: MovementComponent = %Movement_Component
-@onready var attack_component: AttackComponent = %Attack_Component
 
 var current_target: Node2D = null
 var home_location: Vector2
