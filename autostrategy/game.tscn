@@ -1,8 +1,13 @@
 [gd_scene format=3 uid="uid://ccf2cp0lmuw01"]
 
 [ext_resource type="PackedScene" uid="uid://cgj8thcqljjnn" path="res://WorldMap.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://bs486e2jhts1f" path="res://Brown_Cow.tscn" id="2_e2o6t"]
 
 [node name="Game" type="Node2D" unique_id=627513730]
 
 [node name="WorldMap" parent="." unique_id=2071186762 instance=ExtResource("1_80nbo")]
 GridSize = 200
+
+[node name="BrownCow" parent="." unique_id=1237662891 node_paths=PackedStringArray("WorldMapRef") instance=ExtResource("2_e2o6t")]
+position = Vector2(129, 301)
+WorldMapRef = NodePath("../WorldMap")

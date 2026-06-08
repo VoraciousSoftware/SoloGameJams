@@ -1,4 +1,4 @@
-extends Node2D
+class_name WorldMap extends Node2D
 
 @export var GridSize: int
 @onready var GroundMapLayer: TileMapLayer = %GroundLayer
@@ -11,7 +11,7 @@ var HoveredTile: Vector2i = Vector2i.ZERO
 func _ready() -> void:
 	read_drawn_map()
 	init_nav_grid()
-	print(Dic)
+	#print(Dic)
 	
 func read_drawn_map() -> void:
 	Dic.clear()
@@ -20,10 +20,20 @@ func read_drawn_map() -> void:
 		var cell_data: TileData = GroundMapLayer.get_cell_tile_data(cell_coords)
 		if cell_data: 
 			var is_walkable = cell_data.get_custom_data("walkable")
+			var iron = 0.0
+			var occupied_item = "nothing" 
+			if !is_walkable:
+				var atlas_tile = GroundMapLayer.get_cell_atlas_coords(cell_coords)
+				if atlas_tile == Vector2i(2,0):
+					occupied_item = "rock"
+				if atlas_tile == Vector2i(2,1):
+					occupied_item = "iron node"
+					iron = 100.0
+			
 			Dic[str(cell_coords)] = {
 				"walkable": is_walkable,
-				"occupied_by": null,
-				"atlas_coords": GroundMapLayer.get_cell_atlas_coords(cell_coords)
+				"occupied_by": occupied_item,
+				"iron_left": iron
 			}
 		
 func generate_random_map() -> void:
@@ -47,7 +57,7 @@ func generate_random_map() -> void:
 
 func _process(delta: float) -> void:
 	var tile : Vector2i = GroundMapLayer.local_to_map(get_global_mouse_position())
-	print(str(tile))
+	#print(str(tile))
 	
 	if tile != HoveredTile:
 		HoverMapLayer.erase_cell(HoveredTile)
@@ -55,18 +65,22 @@ func _process(delta: float) -> void:
 		
 	if Dic.has(str(tile)):
 		HoverMapLayer.set_cell(tile, 1, Vector2i(0,0))
-		print(Dic[str(tile)])
-		print(AStarGrid.is_point_solid(tile))
+		#print(Dic[str(tile)])
+		#print(AStarGrid.is_point_solid(tile))
 		
 func init_nav_grid() -> void:
-	AStarGrid.region = Rect2i(0,0,5,5)
+	AStarGrid.region = Rect2i(0,0,get_grid_length(),get_grid_length())
 	AStarGrid.cell_size = GroundMapLayer.tile_set.tile_size
 	AStarGrid.update()
 	
-	#for x in 5:
-		#for y in 5:
-			#if Dic[str(Vector2i(x,y))]["occupied_by"] == "Boulder":
-				#AStarGrid.set_point_solid(Vector2i(x,y), true)
+	for x in get_grid_length():
+		for y in get_grid_length():
+			if Dic[str(Vector2i(x,y))]["walkable"] == false:
+				AStarGrid.set_point_solid(Vector2i(x,y), true)
 				
 	
+				
+
+func get_grid_length() -> float:
+	return sqrt(Dic.size())
 	
