@@ -6,6 +6,7 @@ func enter():
 	print("Idle")
 	IdleTimerActive = true
 	%Idle_Timer.start(rng.randf_range(0.0, 1.0))
+	print(character.position)
 	# Override in specific states
 
 # Called when this state is deactivated

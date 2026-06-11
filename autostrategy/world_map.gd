@@ -58,7 +58,6 @@ func generate_random_map() -> void:
 func _process(delta: float) -> void:
 	var tile : Vector2i = GroundMapLayer.local_to_map(get_global_mouse_position())
 	#print(str(tile))
-	
 	if tile != HoveredTile:
 		HoverMapLayer.erase_cell(HoveredTile)
 		HoveredTile = tile
@@ -72,6 +71,7 @@ func init_nav_grid() -> void:
 	AStarGrid.region = Rect2i(0,0,get_grid_length(),get_grid_length())
 	AStarGrid.cell_size = GroundMapLayer.tile_set.tile_size
 	AStarGrid.update()
+	AStarGrid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 	
 	for x in get_grid_length():
 		for y in get_grid_length():
@@ -80,7 +80,22 @@ func init_nav_grid() -> void:
 				
 	
 				
+func map_to_global(coord: Vector2i) -> Vector2:
+	return to_global(GroundMapLayer.map_to_local(coord))
+
+func global_to_map(coord: Vector2) -> Vector2i:
+	return to_local(GroundMapLayer.local_to_map(coord))
 
 func get_grid_length() -> float:
 	return sqrt(Dic.size())
+	
+func get_random_walkable_tile() -> Vector2i:
+	var used_cells: Array[Vector2i] = GroundMapLayer.get_used_cells()
+	for cell_coords in used_cells:
+		var cell_data: TileData = GroundMapLayer.get_cell_tile_data(cell_coords)
+		if cell_data: 
+			if !cell_data.get_custom_data("walkable"):
+				used_cells.erase(cell_coords)
+				
+	return used_cells.pick_random()
 	
