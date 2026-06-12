@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dra1d2ovsgtsc"]
+
+[ext_resource type="Script" uid="uid://pqnak0m210pb" path="res://CowSpawner.gd" id="1_bxs3x"]
+
+[node name="CowSpawner" type="Node" unique_id=1846502296]
+script = ExtResource("1_bxs3x")

@@ -22,7 +22,7 @@ func _ready():
 		change_state(states.values()[0])
 	else:
 		push_error("StateMachine has no State child nodes!")
-	print(states)
+	
 
 
 func _physics_process(delta: float) -> void:

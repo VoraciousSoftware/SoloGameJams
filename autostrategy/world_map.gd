@@ -14,7 +14,6 @@ func _ready() -> void:
 	#read_drawn_map()
 	generate_square_map(GridLength)
 	init_nav_grid()
-	#print(Dic)
 	
 func read_drawn_map() -> void:
 	Dic.clear()
@@ -63,41 +62,46 @@ func generate_square_map(length: int) -> void:
 	for x in length:
 		for y in length:
 			GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,2))
-			if x == length - 1 || x == 0 || y == 0 || y == length - 1:
-				if y == length - 1: #Bottom Edge
-					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,3))
-					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(9,3))
-				if y == 0: #Top Edge
-					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,1))
-					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(9,3))
-				if x == 0: #Left Edge
-					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,2))
-					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,4))
-					if y == 0: #Top Left Corner
-						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,1))
-						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,3))
-					if y == length - 1: #Bottom Left Corner
-						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,3))
-						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,5))
-				if x == length - 1: #Right Edge
-					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,2))
-					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,4))
-					if y == 0: #Top Right Corner
-						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,1))
-						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,3))
-					if y == length - 1: #Bottom Right Corner
-						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,3))
-						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,5))
+			var walkable: bool = true
+			var object: String = "Nothing"
+			if y == length - 1: #Bottom Edge
+				GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,3))
+				StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(9,3))
+				walkable = false
+				object = "Fence"
+			if y == 0: #Top Edge
+				GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,1))
+				StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(9,3))
+				walkable = false
+				object = "Fence"
+			if x == 0: #Left Edge
+				GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,2))
+				StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,4))
+				walkable = false
+				object = "Fence"
+				if y == 0: #Top Left Corner
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,1))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,3))
+				if y == length - 1: #Bottom Left Corner
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,3))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,5))
+			if x == length - 1: #Right Edge
+				GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,2))
+				StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,4))
+				walkable = false
+				object = "Fence"
+				if y == 0: #Top Right Corner
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,1))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,3))
+				if y == length - 1: #Bottom Right Corner
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,3))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,5))
 				
-				Dic[str(Vector2i(x,y))] = {
-					"walkable" : false,
-					"occupied_by" : "Fence"
+			Dic[str(Vector2i(x,y))] = {
+					"walkable" : walkable,
+					"occupied_by" : object
 				}
-			else: 
-				Dic[str(Vector2i(x,y))] = {
-					"walkable" : true,
-					"occupied_by" : null
-				}
+			
 	set_camera_pos()			
 
 func _process(delta: float) -> void:
@@ -135,13 +139,13 @@ func get_grid_length() -> float:
 	
 func get_random_walkable_tile() -> Vector2i:
 	var used_cells: Array[Vector2i] = GroundMapLayer.get_used_cells()
+	var valid_cells: Array[Vector2i]
 	for cell_coords in used_cells:
 		var cell_data: TileData = GroundMapLayer.get_cell_tile_data(cell_coords)
 		if cell_data: 
-			if !cell_data.get_custom_data("walkable"):
-				used_cells.erase(cell_coords)
-				
-	return used_cells.pick_random()
+			if cell_data.get_custom_data("walkable") == true: #uses custom data layers, not dic value
+				valid_cells.append(cell_coords)
+	return valid_cells.pick_random()
 	
 func set_camera_pos() -> void:
 	camera.global_position = map_to_global(Vector2i(get_grid_length()/2, get_grid_length()/2))

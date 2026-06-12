@@ -11,6 +11,7 @@
 radius = 22.090721
 
 [node name="BrownCow" type="CharacterBody2D" unique_id=1237662891]
+collision_mask = 2
 script = ExtResource("1_cqrd3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1494553224]
