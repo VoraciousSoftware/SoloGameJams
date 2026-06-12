@@ -50,7 +50,11 @@ func accelerate_in_direction(direction: Vector2, delta: float):
 	# Calculate target velocity and move towards it
 	var target_velocity = direction.normalized() * max_speed
 	_owner_body.velocity = _owner_body.velocity.move_toward(target_velocity, acceleration * delta)
-	_owner_body.rotation = lerp_angle(_owner_body.rotation, direction.angle(), turn_speed * delta)
+	if _owner_body.velocity.x < 0:
+		_owner_body.sprite.flip_h = false
+	elif _owner_body.velocity.x > 0:
+		_owner_body.sprite.flip_h = true
+	#_owner_body.rotation = lerp_angle(_owner_body.rotation, direction.angle(), turn_speed * delta)
 	# print("Accelerating: ", _owner_body.velocity) # Debug
 
 

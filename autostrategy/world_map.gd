@@ -1,15 +1,18 @@
 class_name WorldMap extends Node2D
 
-@export var GridSize: int
+@export var GridLength: int
 @onready var GroundMapLayer: TileMapLayer = %GroundLayer
+@onready var StrucMapLayer: TileMapLayer = %StructureLayer
 @onready var HoverMapLayer: TileMapLayer = %SelectLayer
+@onready var camera: Camera2D = %Camera2D
 var AStarGrid: AStarGrid2D = AStarGrid2D.new()
 var Rng = RandomNumberGenerator.new()
 var Dic: Dictionary = {}
 var HoveredTile: Vector2i = Vector2i.ZERO
 
 func _ready() -> void:
-	read_drawn_map()
+	#read_drawn_map()
+	generate_square_map(GridLength)
 	init_nav_grid()
 	#print(Dic)
 	
@@ -37,8 +40,9 @@ func read_drawn_map() -> void:
 			}
 		
 func generate_random_map() -> void:
-	for x in GridSize:
-		for y in GridSize:
+	#Old Function
+	for x in GridLength:
+		for y in GridLength:
 			var rand_int = Rng.randi_range(0, 100)
 			if rand_int <= 95:
 				Dic[str(Vector2i(x,y))] = {
@@ -54,19 +58,60 @@ func generate_random_map() -> void:
 				}
 				rand_int = Rng.randi_range(0, 1)
 				GroundMapLayer.set_cell(Vector2i(x,y), 1, Vector2i(2,rand_int))
+				
+func generate_square_map(length: int) -> void:
+	for x in length:
+		for y in length:
+			GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,2))
+			if x == length - 1 || x == 0 || y == 0 || y == length - 1:
+				if y == length - 1: #Bottom Edge
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,3))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(9,3))
+				if y == 0: #Top Edge
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,1))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(9,3))
+				if x == 0: #Left Edge
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,2))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,4))
+					if y == 0: #Top Left Corner
+						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,1))
+						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,3))
+					if y == length - 1: #Bottom Left Corner
+						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(0,3))
+						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(8,5))
+				if x == length - 1: #Right Edge
+					GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,2))
+					StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,4))
+					if y == 0: #Top Right Corner
+						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,1))
+						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,3))
+					if y == length - 1: #Bottom Right Corner
+						GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(2,3))
+						StrucMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(10,5))
+				
+				Dic[str(Vector2i(x,y))] = {
+					"walkable" : false,
+					"occupied_by" : "Fence"
+				}
+			else: 
+				Dic[str(Vector2i(x,y))] = {
+					"walkable" : true,
+					"occupied_by" : null
+				}
+	set_camera_pos()			
 
 func _process(delta: float) -> void:
+	return
+
+
+func hover_tile() -> void:
 	var tile : Vector2i = GroundMapLayer.local_to_map(get_global_mouse_position())
-	#print(str(tile))
 	if tile != HoveredTile:
 		HoverMapLayer.erase_cell(HoveredTile)
 		HoveredTile = tile
-		
 	if Dic.has(str(tile)):
 		HoverMapLayer.set_cell(tile, 1, Vector2i(0,0))
-		#print(Dic[str(tile)])
-		#print(AStarGrid.is_point_solid(tile))
-		
+
 func init_nav_grid() -> void:
 	AStarGrid.region = Rect2i(0,0,get_grid_length(),get_grid_length())
 	AStarGrid.cell_size = GroundMapLayer.tile_set.tile_size
@@ -77,9 +122,8 @@ func init_nav_grid() -> void:
 		for y in get_grid_length():
 			if Dic[str(Vector2i(x,y))]["walkable"] == false:
 				AStarGrid.set_point_solid(Vector2i(x,y), true)
-				
-	
-				
+
+
 func map_to_global(coord: Vector2i) -> Vector2:
 	return to_global(GroundMapLayer.map_to_local(coord))
 
@@ -98,4 +142,7 @@ func get_random_walkable_tile() -> Vector2i:
 				used_cells.erase(cell_coords)
 				
 	return used_cells.pick_random()
+	
+func set_camera_pos() -> void:
+	camera.global_position = map_to_global(Vector2i(get_grid_length()/2, get_grid_length()/2))
 	

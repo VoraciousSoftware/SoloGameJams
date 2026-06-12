@@ -26,7 +26,7 @@ func Update(_delta: float) -> State:
 	
 	var target_point = character.WorldMapRef.map_to_global(current_path[path_index])
 	
-	if character.global_position.distance_to(target_point) <= 50:
+	if character.global_position.distance_to(target_point) <= 5:
 		path_index += 1
 		if path_index < current_path.size():
 			print(current_path[path_index]) 

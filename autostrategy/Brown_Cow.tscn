@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bs486e2jhts1f"]
 
 [ext_resource type="Script" uid="uid://cjesmgirkuo3i" path="res://brown_cow.gd" id="1_cqrd3"]
-[ext_resource type="Texture2D" uid="uid://bmwq052vxttrv" path="res://CowSprite.png" id="1_j0qbf"]
 [ext_resource type="Script" uid="uid://jtnd3fth0t17" path="res://State Machine/state_machine.gd" id="1_m0sh3"]
+[ext_resource type="Texture2D" uid="uid://b5h2jthahjs3n" path="res://CowSprite32.png" id="2_2dbno"]
 [ext_resource type="Script" uid="uid://djexqk0x1ek4o" path="res://State Machine/wander_state.gd" id="2_j0qbf"]
 [ext_resource type="Script" uid="uid://bj8flr0pd053y" path="res://State Machine/idle_state.gd" id="3_cqrd3"]
 [ext_resource type="Script" uid="uid://cvi4ulsrxw215" path="res://movement_component.gd" id="6_2dbno"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cqrd3"]
-radius = 16.03122
+radius = 22.090721
 
 [node name="BrownCow" type="CharacterBody2D" unique_id=1237662891]
 script = ExtResource("1_cqrd3")
@@ -17,7 +17,8 @@ script = ExtResource("1_cqrd3")
 shape = SubResource("CircleShape2D_cqrd3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1275119633]
-texture = ExtResource("1_j0qbf")
+unique_name_in_owner = true
+texture = ExtResource("2_2dbno")
 
 [node name="StateMachine" type="Node" parent="." unique_id=724652938]
 script = ExtResource("1_m0sh3")
@@ -25,6 +26,7 @@ metadata/_custom_type_script = "uid://jtnd3fth0t17"
 
 [node name="Idle_State" type="Node" parent="StateMachine" unique_id=637221128]
 script = ExtResource("3_cqrd3")
+timer_max = 3.0
 metadata/_custom_type_script = "uid://bj8flr0pd053y"
 
 [node name="Idle_Timer" type="Timer" parent="StateMachine/Idle_State" unique_id=2060049790]
@@ -37,9 +39,8 @@ metadata/_custom_type_script = "uid://djexqk0x1ek4o"
 [node name="Movement_Component" type="Node" parent="." unique_id=149443010]
 unique_name_in_owner = true
 script = ExtResource("6_2dbno")
-max_speed = 100.0
-acceleration = 5000.0
-turn_speed = 20.0
-friction = 7000.0
+max_speed = 30.0
+acceleration = 50.0
+friction = 100.0
 
 [connection signal="timeout" from="StateMachine/Idle_State/Idle_Timer" to="StateMachine/Idle_State" method="_on_idle_timer_timeout"]
