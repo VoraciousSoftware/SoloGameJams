@@ -16,6 +16,10 @@ class_name MovementComponent extends Node
 @export var acceleration: float = 800.0
 @export var turn_speed: float = 10.0
 @export var friction: float = 1000.0 # How quickly to stop
+@export var bounce_speed: float = 10
+@export var bounce_amplitude: float = 10
+
+var bounce_time: float = 0.0
 
 # --- State ---
 # We will directly modify the velocity of the owner CharacterBody2D
@@ -38,6 +42,19 @@ func _ready():
 
 
 # --- Public Movement Methods ---
+
+func animate_sprite(delta: float) -> void:
+	var sprite = _owner_body.find_child("Sprite2D")
+	if sprite:
+		if _owner_body.velocity.length() > 0:
+			bounce_time += delta * bounce_speed
+			var bounce_factor = sin(bounce_time) * bounce_amplitude
+			# Apply squash and stretch (X and Y invert each other)
+			sprite.scale.x = 1.0 + bounce_factor
+			sprite.scale.y = 1.0 - bounce_factor
+		else:
+			bounce_time = 0.0
+			sprite.scale = sprite.scale.move_toward(Vector2(1, 1), delta * 5.0)
 
 ## Accelerates the owner towards the target direction.
 func accelerate_in_direction(direction: Vector2, delta: float):
@@ -74,6 +91,7 @@ func move():
 
 	# The core Godot movement function for CharacterBody2D
 	_owner_body.move_and_slide()
+	
 
 
 # --- Getters (Optional) ---

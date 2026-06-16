@@ -1,15 +1,13 @@
 [gd_scene format=3 uid="uid://ccf2cp0lmuw01"]
 
 [ext_resource type="PackedScene" uid="uid://cgj8thcqljjnn" path="res://WorldMap.tscn" id="1_80nbo"]
-[ext_resource type="Script" uid="uid://rnw037otgbkh" path="res://Game_Manager.gd" id="1_feb5d"]
 [ext_resource type="PackedScene" uid="uid://dra1d2ovsgtsc" path="res://CowSpawner.tscn" id="3_feb5d"]
 
 [node name="Game" type="Node2D" unique_id=627513730]
-script = ExtResource("1_feb5d")
 
 [node name="WorldMap" parent="." unique_id=2071186762 instance=ExtResource("1_80nbo")]
-GridLength = 26
+GridLength = 20
 
 [node name="CowSpawner" parent="." unique_id=1846502296 node_paths=PackedStringArray("WorldRef") instance=ExtResource("3_feb5d")]
-SpawnAmount = 100
+SpawnAmount = 1
 WorldRef = NodePath("../WorldMap")

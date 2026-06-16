@@ -62,6 +62,8 @@ func generate_square_map(length: int) -> void:
 	for x in length:
 		for y in length:
 			GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(1,2))
+			if Rng.randi_range(0, 10) > 7:
+				GroundMapLayer.set_cell(Vector2i(x,y), 0, Vector2i(Rng.randi_range(3, 6),3))
 			var walkable: bool = true
 			var object: String = "Nothing"
 			if y == length - 1: #Bottom Edge
