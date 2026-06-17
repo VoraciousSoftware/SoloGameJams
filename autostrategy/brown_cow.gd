@@ -3,14 +3,23 @@ class_name BrownCow extends CharacterBody2D
 @export var WorldRef: WorldMap
 @onready var movement_component = %Movement_Component
 @onready var sprite = $Sprite2D
+@onready var custom_bar = %CustomBar
 
 @onready var current_love: int = 0
 @export var max_love: int = 5
 
+@export var bounce_speed: float = 15
+@export var bounce_amplitude: float = 0.1
+var bounce_time: float = 0.0
+
 var reward: int = 1
+
+func _process(delta: float) -> void:
+	animate_sprite(delta)
 
 func tapped(val: int) -> void:
 	current_love += val
+	custom_bar.increase(val)
 	
 	if current_love >= max_love:
 		if current_love / max_love >= 2:
@@ -18,6 +27,7 @@ func tapped(val: int) -> void:
 		else:
 			give_reward(1)
 		current_love = 0
+		custom_bar.decrease(custom_bar.max_val)
 	
 	print("Click Cow")
 
@@ -28,3 +38,17 @@ func give_reward(mult: int) -> void:
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_action_pressed("Left Click"):
 		tapped(GameManager.Click_Power)
+		
+func animate_sprite(delta: float) -> void:
+	if sprite:
+		var bounce_factor: float
+		if velocity.length() > 15:
+			bounce_time += delta * bounce_speed
+			# Apply squash and stretch (X and Y invert each other)
+		else:
+			bounce_time += delta * bounce_speed * 0.6
+			#bounce_time = 0.0
+			#sprite.scale = sprite.scale.move_toward(Vector2(1, 1), delta * 5.0)
+		bounce_factor = sin(bounce_time) * bounce_amplitude
+		sprite.scale.x = 1.0 + bounce_factor
+		sprite.scale.y = 1.0 - bounce_factor

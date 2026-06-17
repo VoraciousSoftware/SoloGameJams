@@ -15,6 +15,8 @@ func exit():
 
 # Called every physics frame while this state is active
 func Update(_delta: float) -> State:
+	character.movement_component.apply_friction(_delta)
+	character.movement_component.move()
 	if !IdleTimerActive:
 		return state_machine.states["Wander_State"]
 	return

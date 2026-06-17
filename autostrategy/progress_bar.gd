@@ -1,17 +1,20 @@
-class_name ProgBar extends Node
+class_name CustomBar extends Node
 
 signal val_changed(current_val: float)
 signal died
 
 @onready var prog_bar: TextureProgressBar = %ProgBar
 
-@export var max_val: float = 100
+@export var max_val: float = 10.0
 var current_val: float
 
 func _ready() -> void:
 	current_val = 0
 	prog_bar.max_value = max_val
 	prog_bar.value = current_val
+	
+func _process(delta: float) -> void:
+	prog_bar.position = get_parent().global_position + Vector2(1, 1)
 
 # Any node can call this function to deal damage to this component
 func decrease(amount: float) -> void:
@@ -19,7 +22,7 @@ func decrease(amount: float) -> void:
 	
 	# Smoothly animate the bar
 	var tween = create_tween()
-	tween.tween_property(prog_bar, "value", current_val, 0.2).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(prog_bar, "value", current_val, 0.2).set_trans(Tween.TRANS_BOUNCE)
 	
 	# Emit signals for modularity
 	val_changed.emit(current_val)
@@ -32,7 +35,7 @@ func increase(amount: float) -> void:
 	
 	# Smoothly animate the bar
 	var tween = create_tween()
-	tween.tween_property(prog_bar, "value", current_val, 0.2).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(prog_bar, "value", current_val, 0.2).set_trans(Tween.TRANS_BOUNCE)
 	
 	prog_bar.value = current_val
 	val_changed.emit(current_val)

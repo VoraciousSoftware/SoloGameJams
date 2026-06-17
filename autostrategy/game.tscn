@@ -6,7 +6,7 @@
 [node name="Game" type="Node2D" unique_id=627513730]
 
 [node name="WorldMap" parent="." unique_id=2071186762 instance=ExtResource("1_80nbo")]
-GridLength = 20
+GridLength = 10
 
 [node name="CowSpawner" parent="." unique_id=1846502296 node_paths=PackedStringArray("WorldRef") instance=ExtResource("3_feb5d")]
 SpawnAmount = 1

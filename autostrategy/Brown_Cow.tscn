@@ -6,9 +6,10 @@
 [ext_resource type="Script" uid="uid://djexqk0x1ek4o" path="res://State Machine/wander_state.gd" id="2_j0qbf"]
 [ext_resource type="Script" uid="uid://bj8flr0pd053y" path="res://State Machine/idle_state.gd" id="3_cqrd3"]
 [ext_resource type="Script" uid="uid://cvi4ulsrxw215" path="res://movement_component.gd" id="6_2dbno"]
+[ext_resource type="PackedScene" uid="uid://b57snvqr12kpo" path="res://CustomBar.tscn" id="7_rs325"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cqrd3"]
-radius = 22.0
+radius = 23.0
 
 [node name="BrownCow" type="CharacterBody2D" unique_id=1237662891]
 collision_mask = 2
@@ -30,7 +31,6 @@ metadata/_custom_type_script = "uid://jtnd3fth0t17"
 
 [node name="Idle_State" type="Node" parent="StateMachine" unique_id=637221128]
 script = ExtResource("3_cqrd3")
-timer_max = 3.0
 metadata/_custom_type_script = "uid://bj8flr0pd053y"
 
 [node name="Idle_Timer" type="Timer" parent="StateMachine/Idle_State" unique_id=2060049790]
@@ -43,11 +43,10 @@ metadata/_custom_type_script = "uid://djexqk0x1ek4o"
 [node name="Movement_Component" type="Node" parent="." unique_id=149443010]
 unique_name_in_owner = true
 script = ExtResource("6_2dbno")
-max_speed = 30.0
-acceleration = 50.0
-friction = 100.0
-bounce_speed = 15.0
-bounce_amplitude = 0.1
+
+[node name="CustomBar" parent="." unique_id=2094999367 instance=ExtResource("7_rs325")]
+unique_name_in_owner = true
+max_val = 5.0
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="timeout" from="StateMachine/Idle_State/Idle_Timer" to="StateMachine/Idle_State" method="_on_idle_timer_timeout"]

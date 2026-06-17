@@ -28,5 +28,5 @@ func Update(_delta: float) -> State:
 	#character.rotation = pos.angle_to_point(target_location)
 	character.movement_component.accelerate_in_direction(character.global_position.direction_to(target_point), _delta)
 	character.movement_component.move()
-	character.movement_component.animate_sprite(_delta)
+	#character.movement_component.animate_sprite(_delta)
 	return
