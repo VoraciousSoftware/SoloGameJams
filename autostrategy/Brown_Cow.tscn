@@ -7,11 +7,33 @@
 [ext_resource type="Script" uid="uid://bj8flr0pd053y" path="res://State Machine/idle_state.gd" id="3_cqrd3"]
 [ext_resource type="Script" uid="uid://cvi4ulsrxw215" path="res://movement_component.gd" id="6_2dbno"]
 [ext_resource type="PackedScene" uid="uid://b57snvqr12kpo" path="res://CustomBar.tscn" id="7_rs325"]
+[ext_resource type="PackedScene" uid="uid://bd2jkpsk10l63" path="res://glove.tscn" id="8_5t631"]
+[ext_resource type="Texture2D" uid="uid://b5ft2anx2hatr" path="res://heart8bit.png" id="9_hmaur"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cqrd3"]
 radius = 23.0
 
-[node name="BrownCow" type="CharacterBody2D" unique_id=1237662891]
+[sub_resource type="Curve" id="Curve_hmaur"]
+_data = [Vector2(0, 0.7817992), 0.0, 0.0, 0, 0, Vector2(0.33445945, 1), 0.0, 0.0, 0, 0, Vector2(0.695946, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.052189946), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_efbdg"]
+curve = SubResource("Curve_hmaur")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_efbdg"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 48.354
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+angular_velocity_min = -30.000015
+angular_velocity_max = 29.999983
+orbit_velocity_min = -0.1519999
+orbit_velocity_max = 0.0470001
+gravity = Vector3(0, -10, 0)
+scale_curve = SubResource("CurveTexture_efbdg")
+
+[node name="BrownCow" type="CharacterBody2D" unique_id=1237662891 groups=["cows"]]
 collision_mask = 2
 input_pickable = true
 script = ExtResource("1_cqrd3")
@@ -47,6 +69,33 @@ script = ExtResource("6_2dbno")
 [node name="CustomBar" parent="." unique_id=2094999367 instance=ExtResource("7_rs325")]
 unique_name_in_owner = true
 max_val = 5.0
+
+[node name="Glove" parent="." unique_id=653110026 instance=ExtResource("8_5t631")]
+unique_name_in_owner = true
+position = Vector2(0, -45)
+
+[node name="Glove2" parent="." unique_id=1452505420 instance=ExtResource("8_5t631")]
+unique_name_in_owner = true
+
+[node name="Glove3" parent="." unique_id=910457899 instance=ExtResource("8_5t631")]
+unique_name_in_owner = true
+
+[node name="Glove4" parent="." unique_id=1514069492 instance=ExtResource("8_5t631")]
+unique_name_in_owner = true
+
+[node name="Glove5" parent="." unique_id=1874007714 instance=ExtResource("8_5t631")]
+unique_name_in_owner = true
+
+[node name="Heart_Particles" type="GPUParticles2D" parent="." unique_id=501471844]
+unique_name_in_owner = true
+position = Vector2(-6, -8)
+emitting = false
+amount = 1
+texture = ExtResource("9_hmaur")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.2
+process_material = SubResource("ParticleProcessMaterial_efbdg")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="timeout" from="StateMachine/Idle_State/Idle_Timer" to="StateMachine/Idle_State" method="_on_idle_timer_timeout"]

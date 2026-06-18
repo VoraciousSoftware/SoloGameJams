@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn2hmel7cs0cr"
-path="res://.godot/imported/BarFill.png-ebee25a038ada25dd615e87c59693f89.ctex"
+uid="uid://b5ft2anx2hatr"
+path="res://.godot/imported/heart8bit.png-247f2d7cc579c1b29e32ef55494b0eb4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BarFill.png"
-dest_files=["res://.godot/imported/BarFill.png-ebee25a038ada25dd615e87c59693f89.ctex"]
+source_file="res://heart8bit.png"
+dest_files=["res://.godot/imported/heart8bit.png-247f2d7cc579c1b29e32ef55494b0eb4.ctex"]
 
 [params]
 

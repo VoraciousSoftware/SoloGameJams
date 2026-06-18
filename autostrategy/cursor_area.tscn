@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bgksw45hf5mjn"]
+
+[ext_resource type="Script" uid="uid://b8b1veiqq67tw" path="res://cursor_area.gd" id="1_g88xt"]
+[ext_resource type="Texture2D" uid="uid://hhf7kq3cfrf7" path="res://cursor1.png" id="2_sca64"]
+[ext_resource type="Texture2D" uid="uid://c7sb7l0uxifc1" path="res://cursor2.png" id="3_36hdy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dn2mx"]
+radius = 16.0
+
+[node name="CursorArea" type="Area2D" unique_id=888870321]
+z_index = 1
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("1_g88xt")
+max_val = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1626463761]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_dn2mx")
+
+[node name="ProgBar" type="TextureProgressBar" parent="." unique_id=1087028029]
+unique_name_in_owner = true
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+max_value = 10.0
+step = 0.01
+fill_mode = 4
+texture_under = ExtResource("2_sca64")
+texture_progress = ExtResource("3_36hdy")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="full" from="." to="." method="_on_full"]

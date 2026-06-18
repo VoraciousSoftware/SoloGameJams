@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn2hmel7cs0cr"
-path="res://.godot/imported/BarFill.png-ebee25a038ada25dd615e87c59693f89.ctex"
+uid="uid://beg4ecrsppoqy"
+path="res://.godot/imported/glove.png-8ad334c5e31109fd5cc2b2ceb9e9096b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BarFill.png"
-dest_files=["res://.godot/imported/BarFill.png-ebee25a038ada25dd615e87c59693f89.ctex"]
+source_file="res://glove.png"
+dest_files=["res://.godot/imported/glove.png-8ad334c5e31109fd5cc2b2ceb9e9096b.ctex"]
 
 [params]
 

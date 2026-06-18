@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bd2jkpsk10l63"]
+
+[ext_resource type="Texture2D" uid="uid://beg4ecrsppoqy" path="res://glove.png" id="1_e4ijf"]
+[ext_resource type="Script" uid="uid://bls0525g2xnf7" path="res://glove.gd" id="2_lo2qc"]
+
+[node name="Glove" type="Sprite2D" unique_id=653110026]
+texture = ExtResource("1_e4ijf")
+script = ExtResource("2_lo2qc")

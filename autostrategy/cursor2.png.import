@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n2s211lkeaqn"
-path="res://.godot/imported/BarUnderl.png-edbd5796b86f77fd9656f54ccc46a3cb.ctex"
+uid="uid://c7sb7l0uxifc1"
+path="res://.godot/imported/cursor2.png-b04ff8e03e5a98ad62d331c487dfbcd8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BarUnderl.png"
-dest_files=["res://.godot/imported/BarUnderl.png-edbd5796b86f77fd9656f54ccc46a3cb.ctex"]
+source_file="res://cursor2.png"
+dest_files=["res://.godot/imported/cursor2.png-b04ff8e03e5a98ad62d331c487dfbcd8.ctex"]
 
 [params]
 
